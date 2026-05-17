@@ -40,9 +40,17 @@ curl -X POST http://127.0.0.1:8000/explain ^
 
 ## Dataset
 
-- File: `claim_use_case_dataset.xlsx` (2,880 claims)
+- **Full dataset (local):** `claim_use_case_dataset.xlsx` (2,880 claims) — place in project root for best results
+- **CI / GitHub:** `data/claims_sample.csv` (stratified subset, committed to the repo)
+- Loader order: `CLAIM_DATA_PATH` env → full xlsx → `data/claims_sample.csv`
 - Target: `status` → **Completed** (approved) vs **Declined**
 - Structured features for ML; `issueDesc` used in GenAI explanations
+
+Regenerate the sample after updating the xlsx:
+
+```bash
+python scripts/export_sample_data.py
+```
 
 ## ML approach
 

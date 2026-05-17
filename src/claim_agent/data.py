@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pandas as pd
 
-from claim_agent.config import APPROVED_LABEL, DATA_PATH, TARGET_COL
+from claim_agent.config import APPROVED_LABEL, TARGET_COL, resolve_data_path
 
 # Columns used for modelling (structured features only; narrative used by GenAI)
 FEATURE_COLUMNS = [
@@ -35,8 +37,15 @@ FEATURE_COLUMNS = [
 NARRATIVE_COLUMN = "issueDesc"
 
 
-def load_raw_dataset(path=DATA_PATH) -> pd.DataFrame:
-    df = pd.read_excel(path)
+def load_raw_dataset(path: Path | None = None) -> pd.DataFrame:
+    path = path or resolve_data_path()
+    if path.suffix.lower() in {".xlsx", ".xls"}:
+        df = pd.read_excel(path)
+    elif path.suffix.lower() == ".csv":
+        df = pd.read_csv(path)
+    else:
+        raise ValueError(f"Unsupported dataset format: {path.suffix}")
+
     if TARGET_COL not in df.columns:
         raise ValueError(f"Expected target column '{TARGET_COL}' in dataset")
     return df

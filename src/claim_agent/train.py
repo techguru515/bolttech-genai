@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import joblib
@@ -124,6 +125,10 @@ def train(
     return metrics
 
 
+def _fast_train_enabled() -> bool:
+    return os.getenv("CLAIM_AGENT_FAST_TRAIN", "").lower() in ("1", "true", "yes")
+
+
 if __name__ == "__main__":
-    result = train()
+    result = train(tune_hyperparameters=not _fast_train_enabled())
     print(json.dumps(result, indent=2))

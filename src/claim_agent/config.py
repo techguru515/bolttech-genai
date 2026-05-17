@@ -8,7 +8,29 @@ from dotenv import load_dotenv
 load_dotenv()
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-DATA_PATH = PROJECT_ROOT / "claim_use_case_dataset.xlsx"
+DATA_PATH_XLSX = PROJECT_ROOT / "claim_use_case_dataset.xlsx"
+DATA_PATH_SAMPLE = PROJECT_ROOT / "data" / "claims_sample.csv"
+
+
+def resolve_data_path() -> Path:
+    """Prefer explicit env, then full dataset, then committed CI sample."""
+    override = os.getenv("CLAIM_DATA_PATH")
+    if override:
+        path = Path(override)
+        if not path.exists():
+            raise FileNotFoundError(f"CLAIM_DATA_PATH not found: {path}")
+        return path
+    if DATA_PATH_XLSX.exists():
+        return DATA_PATH_XLSX
+    if DATA_PATH_SAMPLE.exists():
+        return DATA_PATH_SAMPLE
+    raise FileNotFoundError(
+        "No dataset found. Place claim_use_case_dataset.xlsx in the project root "
+        "or commit data/claims_sample.csv (see scripts/export_sample_data.py)."
+    )
+
+
+DATA_PATH = resolve_data_path()
 MODEL_DIR = PROJECT_ROOT / "models"
 MODEL_PATH = MODEL_DIR / "claim_approval_model.joblib"
 METRICS_PATH = MODEL_DIR / "metrics.json"

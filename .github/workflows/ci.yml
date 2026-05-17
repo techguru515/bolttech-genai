@@ -23,11 +23,14 @@ jobs:
       - name: Train model (fast path)
         run: python -m claim_agent.train
         env:
+          PYTHONPATH: src
           GENAI_MODE: mock
+          CLAIM_AGENT_FAST_TRAIN: "1"
 
       - name: Run tests
         run: pytest -q
         env:
+          PYTHONPATH: src
           GENAI_MODE: mock
 
       - name: Upload model artifact
