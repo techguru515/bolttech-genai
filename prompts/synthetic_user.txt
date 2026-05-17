@@ -1,0 +1,16 @@
+Generate {count} synthetic insurance claim records as a JSON array.
+
+Focus: {focus_description}
+
+Each object must include these fields:
+excessFee, rrp, balanceRRP, oldBalanceRRP, coverage, policyStatus, retailerName,
+deviceType, make, channel, claimType, country, turnOnOff, touchScreen, smashed,
+frontCamera, backCamera, frontOrBackCamera, audio, mic, buttons, connection,
+charging, other, issueDesc, expected_status
+
+Constraints:
+- expected_status is "Declined" or "Completed"
+- Make scenarios realistic for EU mobile device insurance (NL, SE, FI)
+- Vary claimType, coverage alignment, and damage flags
+- issueDesc: 2-4 sentences, realistic customer language
+- Return ONLY valid JSON array, no markdown

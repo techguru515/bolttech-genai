@@ -1,0 +1,15 @@
+Claim structured data (JSON):
+{claim_json}
+
+Model prediction: {prediction}
+Approval probability: {probability_approved:.1%}
+Contributing factors identified by the model/heuristics:
+{factors}
+
+Issue description (customer narrative):
+{issue_description}
+
+Persona: {persona}
+Persona guidance: {persona_guidance}
+
+Write a concise explanation (120-180 words) for this persona.

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/
+mlruns/
+models/
+*.egg-info/
+.pytest_cache/
+.DS_Store
+__MACOSX/
